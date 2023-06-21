@@ -1,11 +1,8 @@
 local function Chinese()
-    hs.keycodes.currentSourceID("com.apple.inputmethod.SCIM.ITABC")
-    -- hs.keycodes.currentSourceID("com.sogou.inputmethod.sogou.pinyin")
+    hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
 end
 
-local function English()
-    hs.keycodes.currentSourceID("com.apple.keylayout.ABC")
-end
+local function English() hs.keycodes.currentSourceID("com.apple.keylayout.ABC") end
 
 function updateFocusAppInputMethod()
     local focusAppPath = hs.window.frontmostWindow():application():path()
@@ -26,14 +23,11 @@ end
 
 -- helper hotkey to figure out the app path and name of current focused window
 hs.hotkey.bind({'ctrl', 'cmd'}, ".", function()
-    hs.alert.show("App path:        "
-    ..hs.window.focusedWindow():application():path()
-    .."\n"
-    .."App name:      "
-    ..hs.window.focusedWindow():application():name()
-    .."\n"
-    .."IM source id:  "
-    ..hs.keycodes.currentSourceID())
+    hs.alert.show("App path:        " ..
+                      hs.window.focusedWindow():application():path() .. "\n" ..
+                      "App name:      " ..
+                      hs.window.focusedWindow():application():name() .. "\n" ..
+                      "IM source id:  " .. hs.keycodes.currentSourceID())
 end)
 
 -- Handle cursor focus and application's screen manage.

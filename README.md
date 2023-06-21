@@ -42,7 +42,7 @@ brew install stow
 * <kbd>Option</kbd> + <kbd>I</kbd> `iTerm`
 * <kbd>Option</kbd> + <kbd>D</kbd> `Dash`
 * <kbd>Option</kbd> + <kbd>X</kbd> `IntelliJ IDEA`
-* <kbd>Option</kbd> + <kbd>W</kbd> `Wrap`
+* <kbd>Option</kbd> + <kbd>W</kbd> `Warp`
 
 
 ### 切换输入法

@@ -12,7 +12,7 @@ applist = {
     {shortcut = 'I', appname = 'iTerm'},
     {shortcut = 'D', appname = 'Dash'},
     {shortcut = 'X', appname = 'IntelliJ IDEA'},
-    { shortcut = 'W', appname = 'Wrap' }
+    { shortcut = 'W', appname = 'Warp' }
 }
 
 appInputMethod = {

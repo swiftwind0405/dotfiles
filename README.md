@@ -7,7 +7,7 @@ brew install stow
 cd ~
 git clone git@github.com:swiftwind0405/dotfiles.git
 cd dotfiles
-stow .
+stow -S XXX
 ```
 
 ## 使用 stow 管理 symlink

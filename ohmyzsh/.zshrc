@@ -4,44 +4,21 @@
 ZSH=$HOME/.oh-my-zsh
 
 # 让zsh就可以继承.bash_profile的配置
-source ~/.bash_profile
+# source ~/.bash_profile
 
 # github-copilot-cli
 # export PATH="$PATH:/Users/Stanley/.nvm/versions/node/v14.18.2/bin/github-copilot-cli"
 # eval "$(github-copilot-cli alias -- "$0")"
 
+# Load Antigen
+source ~/antigen.zsh
+# Load Antigen configurations
+antigen init ~/.antigenrc
+
+
 # -------------------------------------------------------------------
 # antigen plugins 相关设置
 # -------------------------------------------------------------------
-source /usr/local/share/antigen/antigen.zsh
-
-# 加载oh-my-zsh库
-antigen use oh-my-zsh
-
-# 加载原版oh-my-zsh中的功能(robbyrussell's oh-my-zsh).
-antigen bundle git
-# antigen bundle globalias  # 提供了一种在命令行中创建全局别名的方式
-antigen bundle node  # node-docs 打开nodejs的文档
-antigen bundle autojump 
-antigen bundle macos #提供了一些与 macOS 系统相关的实用功能和快捷方式 https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/macos
-antigen bundle zsh-autosuggestions # 根据你的历史命令权重，自动进行可视化命令提示 https://github.com/zsh-users/zsh-autosuggestions
-antigen bundle sudo # Easily prefix your current or previous commands with sudo by pressing esc twice.
-antigen bundle history # 提供了一些有用的历史命令扩展和快捷方式 https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/history
-antigen bundle extract # 解压文件
-antigen bundle last-working-dir # adds a lwd function to jump to the last working directory.
-antigen bundle copypath # 1. copypath: copies the absolute path of the current directory. 2.copypath <file_or_directory>: copies the absolute path of the given file.
-antigen bundle copyfile # copyfile <filename> to copy the file named filename.
-antigen bundle cp #  defines a cpv function that uses rsync so that you get the features and security of this command
-# antigen bundle safe-paste
-antigen bundle colored-man-pages # adds colors to man pages，例如 colored git help clone
-antigen bundle zsh-users/zsh-syntax-highlighting # 语法高亮功能
-antigen bundle zsh-users/zsh-completions # 自动补全功能
-
-# 加载主题
-antigen theme robbyrussell
-
-# 保存更改
-antigen apply
 
 # -------------------------------------------------------------------
 # plugins 设置
@@ -60,11 +37,18 @@ antigen apply
 # 	npm 
 # 	zsh-autosuggestions 
 # 	sudo 
+# 	web-search
 # 	history 
 # 	extract 
+# 	last-working-dir
 # 	copydir
 # 	copyfile
 # 	cp
+# 	zsh_reload
+# 	command-not-found # requirement : https://github.com/Homebrew/homebrew-command-not-found
+# 	safe-paste
+# 	colored-man-pages
+# 	z
 # 	zsh-better-npm-completion
 # 	zsh-yarn-completions
 # )
@@ -182,25 +166,16 @@ vimrc(){
 }
 
 # -------------------------------------------------------------------
-# 系统相关 Mac Only
-# -------------------------------------------------------------------
-alias dns="dscacheutil -flushcache"
-alias oo="open ." # open current directory in OS X Finder
-alias update="brew update && brew upgrade && brew cu -a -y && mas upgrade"  # update all app
-
-# -------------------------------------------------------------------
 # Git
 # -------------------------------------------------------------------
-# 由于用了 git 插件，所以这里不需要再配置了
-# 具体相应 alias 见：https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
-# alias gam="git commit -a -m"
-# alias gamno="git commit --no-verify -a -m"
-# alias gc= "git checkout"
-# alias gs="git status"
-# alias gp='git push'
+alias gam="git commit -a -m"
+alias gamno="git commit --no-verify -a -m"
+alias gc= "git checkout"
+alias gs="git status"
+alias gp='git push'
 alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit "
-# alias gb='git branch'  #显示所有本地分支
-# alias gd='git diff' #显示缓存变化
+alias gb='git branch'  #显示所有本地分支
+alias gd='git diff' #显示缓存变化
 
 # -------------------------------------------------------------------
 # 极点客  Geek
@@ -247,6 +222,13 @@ echo '你的局域网IP是: '$lanip
 echo '你的外网IP是: '$publicip
 }
 
+# -------------------------------------------------------------------
+# 系统相关 Mac Only
+# -------------------------------------------------------------------
+alias dns="dscacheutil -flushcache"
+alias oo="open ." # open current directory in OS X Finder
+alias update="brew update && brew upgrade && brew cu -a -y && mas upgrade"  # update all app
+
 # 开启Pure ?
 # fpath+=("/usr/local/share/zsh/site-functions")
 # autoload -U promptinit; promptinit
@@ -270,7 +252,7 @@ export PATH=/usr/bin:$PATH
   [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
 export PATH="/usr/local/bin:$PATH"
 
-source /Users/Stanley/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# source /Users/Stanley/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # 由于Mac自带了php和php-fpm，因此需要添加系统环境变量PATH来替代自带PHP版本
 #export PATH="$(brew --prefix php70)/bin:$PATH"      #for php

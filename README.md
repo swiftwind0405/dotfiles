@@ -7,8 +7,11 @@ brew install stow
 cd ~
 git clone git@github.com:swiftwind0405/dotfiles.git
 cd dotfiles
-stow -S XXX
 ```
+
+在每台计算机上，我进入 dotfiles 目录，并运行 stow -S <目录名称> 以将目录中的文件符号链接到我的家目录。例如，在 vim 目录下，我有 .vimrc 和 .vim 目录。在每台机器上，我运行 stow -S vim 来创建符号链接 ~/.vimrc 和 ~/.vim。当我在一台计算机上更改 Vim 配置时，它会应用到我的所有机器上。
+
+然而，有时候，我需要一些特定于机器的配置，这就是为什么我有如 msmtp-personal 和 msmtp-company（公司）这样的目录。由于我的 msmtp SMTP 客户端需要知道要中继电子邮件服务器，并且每个服务器都有不同的设置和凭据，我会使用 -D 标志来取消链接，接着链接另外一个。
 
 ## 使用 stow 管理 symlink
 stow 是管理符号链接（symlink）的一个小工具。只需要

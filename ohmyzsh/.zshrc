@@ -4,54 +4,13 @@
 ZSH=$HOME/.oh-my-zsh
 
 # 让zsh就可以继承.bash_profile的配置
-# source ~/.bash_profile
-
-# github-copilot-cli
-# export PATH="$PATH:/Users/Stanley/.nvm/versions/node/v14.18.2/bin/github-copilot-cli"
-# eval "$(github-copilot-cli alias -- "$0")"
+source ~/.bash_profile
 
 # Load Antigen
-source ~/antigen.zsh
+# 这个path是brew安装的路径
+source /usr/local/share/antigen/antigen.zsh
 # Load Antigen configurations
 antigen init ~/.antigenrc
-
-
-# -------------------------------------------------------------------
-# antigen plugins 相关设置
-# -------------------------------------------------------------------
-
-# -------------------------------------------------------------------
-# plugins 设置
-# -------------------------------------------------------------------
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-
-# plugins=(
-# 	git 
-# 	globalias
-# 	node 
-# 	svn 
-# 	autojump 
-# 	osx 
-# 	npm 
-# 	zsh-autosuggestions 
-# 	sudo 
-# 	web-search
-# 	history 
-# 	extract 
-# 	last-working-dir
-# 	copydir
-# 	copyfile
-# 	cp
-# 	zsh_reload
-# 	command-not-found # requirement : https://github.com/Homebrew/homebrew-command-not-found
-# 	safe-paste
-# 	colored-man-pages
-# 	z
-# 	zsh-better-npm-completion
-# 	zsh-yarn-completions
-# )
 
 # Setup terminal, and turn on colors 颜色配置
 export TERM=xterm-256color

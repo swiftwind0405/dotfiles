@@ -34,6 +34,8 @@ cd dotfiles
 
 ## 将收集的配置文件应用到新的系统中
 
+> 最终某个文件夹下所有结构会和目标保持一致
+
 将项目拉取到新的机器的家目录，切换到`stow dir`，执行`stow -S bash`可以将bash的配置文件展开到家目录下。
 你也可以使用多个组合命令：`stow -S pkg1 pkg2 -D pkg3 pkg4 -S pkg5 -R pkg6`
 

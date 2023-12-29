@@ -4,7 +4,8 @@ require "modules.window"
 require "modules.launcher"
 require "modules.input"
 require "modules.defaultInput"
-require "modules.bluetoothSleep"
+-- 蓝牙睡眠
+-- require "modules.bluetoothSleep"
 require "modules.wifi"
 
 hs.hotkey.bind({'cmd', 'shift'}, 'h', function()

@@ -1,3 +1,5 @@
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # Oh-my-ZSH 配置
 #-------------------------------------------------------------------
 # Path to your oh-my-zsh configuration.设置 ZSH默认路径
@@ -32,8 +34,6 @@ export EDITOR= "vim"
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 
-# ZSH_THEME="ys"  原始设置
-ZSH_THEME="spaceship"
 alias sz='source ~/.zshrc' #重新执行
 
 # -------------------------------------------------------------------
@@ -157,8 +157,8 @@ echo '启动Node Http Server'
 #export NO_PROXY=localhost,127.0.0.1
 ###上面的三行命令表示,每次新建一个终端会话时,默认让终端去走代理,这样就不需要每次都复制拷贝一下了,很方便,同时,代理程序去智能分流(国内 IP 直连,国外走代理)，避免了连接国内 IP 地址时“绕远”.
 
-alias proxy="export https_proxy=http://127.0.0.1:8234;export http_proxy=http://127.0.0.1:8234;export all_proxy=socks5://127.0.0.1:8235;echo \"Proxy successfully\""
-alias unsetproxy="unset http_proxy;unset https_proxy;unset all_proxy;echo \"Unset proxy successfully\" " 
+# alias proxy="export https_proxy=http://127.0.0.1:8234;export http_proxy=http://127.0.0.1:8234;export all_proxy=socks5://127.0.0.1:8235;echo \"Proxy successfully\""
+# alias unsetproxy="unset http_proxy;unset https_proxy;unset all_proxy;echo \"Unset proxy successfully\" " 
 
 alias ipcn="curl myip.ipip.net"
 alias ip="curl ip.sb"
@@ -235,22 +235,24 @@ export CLASSPATH
 # export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # nvm环境变量
-# export NVM_DIR="$HOME/.nvm"
-#   [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-#   [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # export PATH="/usr/local/opt/tomcat@9/bin:$PATH"
 
 # Jetbrains crack
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
+ 
+export TERM=xterm-256color 
 
-# volta
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+# pnpm
+export PNPM_HOME="/Users/Stanley/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
 
-# bun completions
-[ -s "/Users/Stanley/.bun/_bun" ] && source "/Users/Stanley/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"

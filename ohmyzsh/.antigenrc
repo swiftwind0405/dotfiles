@@ -20,7 +20,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting # 语法高亮功能
 antigen bundle zsh-users/zsh-completions # 自动补全功能
 
 # 加载主题
-antigen theme robbyrussell
+antigen theme spaceship-prompt/spaceship-prompt
 
 # 保存更改
 antigen apply

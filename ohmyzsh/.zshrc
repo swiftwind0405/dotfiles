@@ -62,7 +62,6 @@ alias ugz='tar -xzf' #tar -xzf [被压缩文件]
 #alias pwd='pwd && pwd' #查看当前路径
 alias pwdc='pwd && pwd | pbcopy' #查看当前路径并且复制
 alias cleanDS='find . -name ".DS_Store" -print0 | xargs -0 rm -rf' #清除目录下的 DS_Store文件
-alias cleanNode = "find . -name 'node_modules' -type d -exec rm -rf '{}' +" #清除目录下所有的 node_modules
 
 fucntion mkd(){
 	mkdir -p "$@" && cd "$@"

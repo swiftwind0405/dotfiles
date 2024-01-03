@@ -1,0 +1,6 @@
+[user]
+	email = swiftwind0405@gmail.com
+	name = Stanley
+[push]
+	default = current
+	autoSetupRemote = true

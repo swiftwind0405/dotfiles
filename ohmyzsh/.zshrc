@@ -10,7 +10,9 @@ source ~/.bash_profile
 
 # Load Antigen
 # 这个path是brew安装的路径
-source /usr/local/share/antigen/antigen.zsh
+# source /usr/local/share/antigen/antigen.zsh
+# 这个path是 apple 芯片的 Mac brew 安装的路径
+source /opt/homebrew/share/antigen/antigen.zsh
 # Load Antigen configurations
 antigen init ~/.antigenrc
 
@@ -247,7 +249,7 @@ ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_V
 export TERM=xterm-256color 
 
 # pnpm
-export PNPM_HOME="/Users/Stanley/Library/pnpm"
+export PNPM_HOME="/Users/stanleyyang/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;

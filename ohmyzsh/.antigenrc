@@ -1,26 +1,27 @@
-# 加载oh-my-zsh库
+# Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
+# Bundles from the default repo (robbyrussell's oh-my-zsh).
 antigen bundle git
 antigen bundle zdharma-continuum/fast-syntax-highlighting
 antigen bundle node  # node-docs 打开nodejs的文档
 antigen bundle autojump 
 antigen bundle macos #提供了一些与 macOS 系统相关的实用功能和快捷方式 https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/macos
-antigen bundle zsh-autosuggestions # 根据你的历史命令权重，自动进行可视化命令提示 https://github.com/zsh-users/zsh-autosuggestions
-antigen bundle sudo # Easily prefix your current or previous commands with sudo by pressing esc twice.
-antigen bundle history # 提供了一些有用的历史命令扩展和快捷方式 https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/history
+antigen bundle zsh-users/zsh-autosuggestions # 根据你的历史命令权重，自动进行可视化命令提示 https://github.com/zsh-users/zsh-autosuggestions
+# antigen bundle history # 提供了一些有用的历史命令扩展和快捷方式 https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/history
 antigen bundle extract # 解压文件
 antigen bundle last-working-dir # adds a lwd function to jump to the last working directory.
 antigen bundle copypath # 1. copypath: copies the absolute path of the current directory. 2.copypath <file_or_directory>: copies the absolute path of the given file.
 antigen bundle copyfile # copyfile <filename> to copy the file named filename.
 antigen bundle cp #  defines a cpv function that uses rsync so that you get the features and security of this command
-# antigen bundle safe-paste
 antigen bundle colored-man-pages # adds colors to man pages，例如 colored git help clone
+
+# Syntax highlighting bundle.
 antigen bundle zsh-users/zsh-syntax-highlighting # 语法高亮功能
 antigen bundle zsh-users/zsh-completions # 自动补全功能
 
-# 加载主题
+# Load the theme.
 antigen theme spaceship-prompt/spaceship-prompt
 
-# 保存更改
+# Tell Antigen that you're done.
 antigen apply

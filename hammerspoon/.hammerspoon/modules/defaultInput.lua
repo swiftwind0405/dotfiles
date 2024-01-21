@@ -1,3 +1,4 @@
+-- 这里指定中文和英文输入法的 ID
 local function Chinese()
     hs.keycodes.currentSourceID("im.rime.inputmethod.Squirrel.Hans")
 end
@@ -21,7 +22,7 @@ function updateFocusAppInputMethod()
     end
 end
 
--- helper hotkey to figure out the app path and name of current focused window
+-- 当选中某窗口按下 ctrl+command+. 时会显示应用的路径、名字等信息
 hs.hotkey.bind({'ctrl', 'cmd'}, ".", function()
     hs.alert.show("App path:        " ..
                       hs.window.focusedWindow():application():path() .. "\n" ..

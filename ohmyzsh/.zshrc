@@ -10,9 +10,9 @@ source ~/.bash_profile
 
 # Load Antigen
 # 这个path是brew安装的路径
-source /usr/local/Cellar/antigen/2.2.3/share/antigen/antigen.zsh
+#source /usr/local/Cellar/antigen/2.2.3/share/antigen/antigen.zsh
 # 这个path是 apple 芯片的 Mac brew 安装的路径
-# source /opt/homebrew/share/antigen/antigen.zsh
+source /opt/homebrew/share/antigen/antigen.zsh
 # Load Antigen configurations
 antigen init ~/.antigenrc
 
@@ -235,13 +235,6 @@ export CLASSPATH
 # export ANDROID_HOME=/Users/Stanley/Library/Android/sdk
 # export PATH="/usr/local/bin:$ANDROID_HOME/platform-tools:$PATH"n的环境变量
 # export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# nvm环境变量
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-# export PATH="/usr/local/opt/tomcat@9/bin:$PATH"
 
 # Jetbrains crack
 ___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi

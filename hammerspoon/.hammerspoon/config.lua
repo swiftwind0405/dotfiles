@@ -5,13 +5,14 @@ workWifi = 'CAIDAO-dev-5G'
 outputDeviceName = 'MacBook Pro扬声器'
 
 applist = {
-    {shortcut = 'G', appname = 'Google Chrome'},
-    -- {shortcut = 'F', appname = 'Microsoft Edge'},
-    {shortcut = 'U', appname = 'Visual Studio Code'},
-    {shortcut = 'I', appname = 'IntelliJ IDEA'},
-    {shortcut = 'D', appname = 'Obsidian'},
-    { shortcut = 'Q', appname = 'Warp' },
-    { shortcut = 'A', appname = 'Arc' }
+    {shortcut = 'C', appname = 'Google Chrome'},
+    -- {shortcut = 'G', appname = 'Visual Studio Code'},
+    -- {shortcut = 'F', appname = 'IntelliJ IDEA'},
+    -- {shortcut = 'L', appname = 'Lark'},
+    -- {shortcut = 'D', appname = 'Obsidian'},
+    {shortcut = 'W', appname = 'Warp'},
+    -- {shortcut = 'F', appname = 'Figma'},
+    {shortcut = 'A', appname = 'Microsoft Edge'}
 }
 
 appInputMethod = {

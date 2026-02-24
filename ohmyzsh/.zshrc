@@ -8,6 +8,35 @@ ZSH=$HOME/.oh-my-zsh
 # 让zsh就可以继承.bash_profile的配置
 source ~/.bash_profile
 
+########## 基础 PATH 兜底，防止 bash_profile 把 PATH 玩坏 ##########
+# Apple Silicon + 常规 Unix 路径
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
+
+# 使用 Homebrew 的 Python 3.11 提供的 python / python3 / pip 等（软链接在 libexec/bin 里）
+export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:$PATH"
+alias python="python3.11"
+alias python3="python3.11"
+########## 基础 PATH 兜底结束 ##########
+# ---- PATH 统一收敛（zsh 原生数组 + 去重）----
+typeset -U path PATH   # 去重，保留第一次出现的顺序
+
+# 约定优先级：Homebrew(arm) > 用户本地 > 其余已有 > /usr/local(旧) > 系统
+path=(
+  /opt/homebrew/bin /opt/homebrew/sbin
+  $HOME/.local/bin
+  $path
+  /usr/local/bin /usr/local/sbin
+  /usr/bin /bin /usr/sbin /sbin
+)
+export PATH
+# ---- PATH 统一收敛结束 ----
+
+path=("$HOME/.local/bin" $path)
+path=("/opt/homebrew/opt/openjdk@17/bin" $path)
+path=("$BUN_INSTALL/bin" $path)
+path=("$HOME/.jenv/bin" $path)
+export PATH
+
 # Load Antigen
 # 这个path是brew安装的路径
 #source /usr/local/Cellar/antigen/2.2.3/share/antigen/antigen.zsh
@@ -24,14 +53,15 @@ export LSCOLORS=Gxfxcxdxbxegedabagacad
 # Uncomment the following line to change how often to auto-update (in days).
 export UPDATE_ZSH_DAYS=1
 
-# Enable color in grep
-export GREP_OPTIONS='--color=auto'
-export GREP_COLOR='3;33'
+# homebrew install禁用自动更新
+export HOMEBREW_NO_AUTO_UPDATE=1
+
+alias grep='grep --color=auto'
 
 # 设置默认编辑器
 alias vi='vim'
+export EDITOR="vim"
 alias edit=$EDITOR
-export EDITOR= "vim"
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -65,9 +95,15 @@ alias ugz='tar -xzf' #tar -xzf [被压缩文件]
 alias pwdc='pwd && pwd | pbcopy' #查看当前路径并且复制
 alias cleanDS='find . -name ".DS_Store" -print0 | xargs -0 rm -rf' #清除目录下的 DS_Store文件
 
-fucntion mkd(){
-	mkdir -p "$@" && cd "$@"
+# 删除所有的 node_modules 目录
+function cleannpm() {
+  find ~/Workspace -type d -name node_modules -prune -exec rm -rf -- {} +
 }
+
+# 清理 Maven 目录
+function cleanm2() { rm -rf -- ~/.m2; }
+
+function mkd() { mkdir -p -- "$@" && cd -- "$1"; }
 
 ###列出系统最大的文件 快捷 maxfile 即可
 maxfile(){
@@ -75,33 +111,24 @@ maxfile(){
 }
 
 extract () {
-	if [ -f $1 ] ; then
-		case $1 in
-			*.tar.bz2)   tar xjf $1     ;;
-		*.tar.gz)    tar xzf $1     ;;
-	*.bz2)       bunzip2 $1     ;;
-*.rar)       unrar e $1     ;;
-	*.gz)        gunzip $1      ;;
-*.tar)       tar xf $1      ;;
-*.tbz2)      tar xjf $1     ;;
-	*.tgz)       tar xzf $1     ;;
-*.zip)       unzip $1       ;;
-*.Z)         uncompress $1  ;;
-	*.7z)        7z x $1        ;;
-*)     echo "'$1' cannot be extracted via extract()" ;;
-esac
-	else
-		echo "'$1' is not a valid file"
-	fi
+  local f="$1"
+  [[ -f "$f" ]] || { echo "'$f' is not a valid file"; return 1; }
+  case "$f" in
+    *.tar.bz2) tar xjf -- "$f" ;;
+    *.tar.gz)  tar xzf -- "$f" ;;
+    *.bz2)     bunzip2 -- "$f" ;;
+    *.rar)     unrar e -- "$f" ;;
+    *.gz)      gunzip -- "$f" ;;
+    *.tar)     tar xf -- "$f" ;;
+    *.tbz2)    tar xjf -- "$f" ;;
+    *.tgz)     tar xzf -- "$f" ;;
+    *.zip)     unzip -- "$f" ;;
+    *.Z)       uncompress -- "$f" ;;
+    *.7z)      7z x -- "$f" ;;
+    *) echo "'$f' cannot be extracted via extract()"; return 2 ;;
+  esac
 }
 
-# -------------------------------------------------------------------
-# VPS 相关 Servers in air
-# -------------------------------------------------------------------
-
-#alias vps-aliyun="ssh root@47.101.192.119"
-# openwrt
-alias openwrt="ssh -p 9002 root@home.stanleywind.cn"
 
 # edit global zsh configuration
 alias zshconfig="vim ~/.zshrc"
@@ -131,7 +158,7 @@ vimrc(){
 # -------------------------------------------------------------------
 alias gam="git commit -a -m"
 alias gamno="git commit --no-verify -a -m"
-alias gc= "git checkout"
+alias gc="git checkout"
 alias gs="git status"
 alias gp='git push'
 alias gl="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit "
@@ -145,7 +172,10 @@ alias gd='git diff' #显示缓存变化
 function hittp {
 myip
 echo '你的服务器地址是:' $lanip
-python -m SimpleHTTPServer $1
+# Python 版本是 3.X
+python3 -m http.server $1
+# Python 版本是 2.X
+# python3 -m SimpleHTTPServer $1
 }
 function nodeweb {
 echo '启动Node Http Server'
@@ -159,8 +189,8 @@ echo '启动Node Http Server'
 #export NO_PROXY=localhost,127.0.0.1
 ###上面的三行命令表示,每次新建一个终端会话时,默认让终端去走代理,这样就不需要每次都复制拷贝一下了,很方便,同时,代理程序去智能分流(国内 IP 直连,国外走代理)，避免了连接国内 IP 地址时“绕远”.
 
-alias proxy="export https_proxy=http://127.0.0.1:7890;export http_proxy=http://127.0.0.1:7890;export all_proxy=socks5://127.0.0.1:7890;echo \"Proxy successfully\""
-alias unsetproxy="unset http_proxy;unset https_proxy;unset all_proxy;echo \"Unset proxy successfully\" " 
+alias proxy="export https_proxy=http://127.0.0.1:6152;export http_proxy=http://127.0.0.1:6152;export all_proxy=socks5://127.0.0.1:6153;echo \"Proxy successfully\""
+alias unproxy="unset http_proxy;unset https_proxy;unset all_proxy;echo \"Unset proxy successfully\" " 
 
 alias ipcn="curl myip.ipip.net"
 alias ip="curl ip.sb"
@@ -208,46 +238,51 @@ alias cnpm="npm --registry=http://r.cnpmjs.org \
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-# SVN 设置
-export PATH=/usr/bin:$PATH
-  [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-export PATH="/usr/local/bin:$PATH"
-
-# source /Users/Stanley/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-# 由于Mac自带了php和php-fpm，因此需要添加系统环境变量PATH来替代自带PHP版本
-#export PATH="$(brew --prefix php70)/bin:$PATH"      #for php
-#export PATH="$(brew --prefix php70)/sbin:$PATH"		#for php-fpm
+# autojump（brew 已经在 PATH 里了）
+[[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . "$(brew --prefix)/etc/profile.d/autojump.sh"
 
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-export PATH="/usr/local/bin:/usr/local/sbib:$PATH"	#for other brew install soft
-export PATH="/usr/local/sbin:$PATH"
 
 # JDK 环境变量
-JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home
-PATH=$JAVA_HOME/bin:$PATH:.
-CLASSPATH=$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:.
-export JAVA_HOME
+export JAVA_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null || /usr/libexec/java_home 2>/dev/null || echo "/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home")
+path=("$JAVA_HOME/bin" $path)
+export CLASSPATH="$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:."
 export PATH
-export CLASSPATH
-
-# Android SDK 环境变量
-# export ANDROID_HOME=/Users/Stanley/Library/Android/sdk
-# export PATH="/usr/local/bin:$ANDROID_HOME/platform-tools:$PATH"n的环境变量
-# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-
-# Jetbrains crack
-___MY_VMOPTIONS_SHELL_FILE="${HOME}/.jetbrains.vmoptions.sh"; if [ -f "${___MY_VMOPTIONS_SHELL_FILE}" ]; then . "${___MY_VMOPTIONS_SHELL_FILE}"; fi
  
 export TERM=xterm-256color 
 
 # pnpm
-export PNPM_HOME="/Users/stanleyyang/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
+export PNPM_HOME="$HOME/Library/pnpm"
+path=("$PNPM_HOME" $path)
+export PATH
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/stanleyyang/Develop/python/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/stanleyyang/Develop/python/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/stanleyyang/Develop/python/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/stanleyyang/Develop/python/google-cloud-sdk/completion.zsh.inc'; fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# -------------------------------------------------------------------
+# AI相关
+# -------------------------------------------------------------------
+
+# bun completions
+[ -s "/Users/stanleyyang/.bun/_bun" ] && source "/Users/stanleyyang/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+eval "$(jenv init -)"
+
+# OPENSPEC:START
+# OpenSpec shell completions configuration
+fpath=("/Users/stanleyyang/.oh-my-zsh/custom/completions" $fpath)
+autoload -Uz compinit
+compinit
+# OPENSPEC:END

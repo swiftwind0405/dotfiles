@@ -19,7 +19,7 @@ cd dotfiles
 
 3. 在 bash 文件夹下创建对应的配置文件，文件内容为空即可，比如`.bashrc`，`.bash_profile`。
 
-4. 在`stow dir`下执行`stow --adopt bash`，这一命令分别对比`target dir`（也即是家目录）和 bash 目录的结构，
+4. 在`stow dir`下执行`stow --adopt bash`(是直接在dotfiles目录下操作的)，这一命令分别对比`target dir`（也即是家目录）和 bash 目录的结构，
    并将家目录下同树结构的文件采纳到`stow dir`下：将`.bashrc`移到bash目录覆盖掉对应的空配置文件，
    并在家目录创建符号链接指向转移过来的配置文件。
 

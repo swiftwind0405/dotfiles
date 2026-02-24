@@ -260,10 +260,10 @@ export PATH
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/stanleyyang/Develop/python/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/stanleyyang/Develop/python/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '$HOME/Develop/python/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/Develop/python/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/stanleyyang/Develop/python/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/stanleyyang/Develop/python/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '$HOME/Develop/python/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/Develop/python/google-cloud-sdk/completion.zsh.inc'; fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -274,7 +274,7 @@ export NVM_DIR="$HOME/.nvm"
 # -------------------------------------------------------------------
 
 # bun completions
-[ -s "/Users/stanleyyang/.bun/_bun" ] && source "/Users/stanleyyang/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
@@ -282,7 +282,7 @@ eval "$(jenv init -)"
 
 # OPENSPEC:START
 # OpenSpec shell completions configuration
-fpath=("/Users/stanleyyang/.oh-my-zsh/custom/completions" $fpath)
+fpath=("$HOME/.oh-my-zsh/custom/completions" $fpath)
 autoload -Uz compinit
 compinit
 # OPENSPEC:END

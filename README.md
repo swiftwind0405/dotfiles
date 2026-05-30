@@ -56,6 +56,9 @@ cd dotfiles
 stow -S zsh git tmux kitty yazi lazygit raycast-scripts bin agent-tracker
 ```
 
+仓库根目录有 `.stowrc`，执行 `stow` 时会自动忽略各包顶层的 `README.md`，
+避免多个包同时尝试链接到 `~/README.md` 产生冲突。
+
 - `-d` 指定 stow 文件夹
 - `-t` 指定 target 文件夹
 - `-D` 移除已创建的文件树

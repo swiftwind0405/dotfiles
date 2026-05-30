@@ -204,6 +204,8 @@ function hiweb {
 sudo apachectl start
 }
 
+alias mbp="ssh stanley@192.168.31.250"
+
 # 快速查看本机IP地址
 function myip(){
 myip="$(ifconfig | grep 'inet.*netmask.*broadcast')"

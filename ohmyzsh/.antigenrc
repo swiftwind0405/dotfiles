@@ -20,8 +20,8 @@ antigen bundle colored-man-pages # adds colors to man pages，例如 colored git
 antigen bundle zsh-users/zsh-syntax-highlighting # 语法高亮功能
 antigen bundle zsh-users/zsh-completions # 自动补全功能
 
-# Load the theme.
-antigen theme spaceship-prompt/spaceship-prompt
+# 不加载任何 antigen theme
+# antigen theme spaceship-prompt/spaceship-prompt
 
 # Tell Antigen that you're done.
 antigen apply

@@ -1,29 +1,32 @@
-# Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # Oh-my-ZSH 配置
 #-------------------------------------------------------------------
 # Path to your oh-my-zsh configuration.设置 ZSH默认路径
 ZSH=$HOME/.oh-my-zsh
 
+# oh my zsh的配置文件中theme需要为空, 才能出现彩虹条
+ZSH_THEME=""
+
 # 让zsh就可以继承.bash_profile的配置
 source ~/.bash_profile
 
-########## 基础 PATH 兜底，防止 bash_profile 把 PATH 玩坏 ##########
-# Apple Silicon + 常规 Unix 路径
-export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin"
-
-# 使用 Homebrew 的 Python 3.11 提供的 python / python3 / pip 等（软链接在 libexec/bin 里）
-export PATH="/opt/homebrew/opt/python@3.11/libexec/bin:$PATH"
-alias python="python3.11"
-alias python3="python3.11"
-########## 基础 PATH 兜底结束 ##########
 # ---- PATH 统一收敛（zsh 原生数组 + 去重）----
 typeset -U path PATH   # 去重，保留第一次出现的顺序
 
-# 约定优先级：Homebrew(arm) > 用户本地 > 其余已有 > /usr/local(旧) > 系统
+# 提前定义变量，供 PATH 引用
+export BUN_INSTALL="$HOME/.bun"
+export PNPM_HOME="$HOME/Library/pnpm"
+export JAVA_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null || /usr/libexec/java_home 2>/dev/null || echo "/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home")
+
+# 约定优先级：Homebrew(arm) > 开发工具 > 用户本地 > 其余已有 > 系统
 path=(
   /opt/homebrew/bin /opt/homebrew/sbin
+  /opt/homebrew/opt/python@3.11/libexec/bin
+  /opt/homebrew/opt/openjdk@17/bin
+  $HOME/.jenv/bin
   $HOME/.local/bin
+  $BUN_INSTALL/bin
+  $PNPM_HOME
+  $JAVA_HOME/bin
   $path
   /usr/local/bin /usr/local/sbin
   /usr/bin /bin /usr/sbin /sbin
@@ -31,11 +34,8 @@ path=(
 export PATH
 # ---- PATH 统一收敛结束 ----
 
-path=("$HOME/.local/bin" $path)
-path=("/opt/homebrew/opt/openjdk@17/bin" $path)
-path=("$BUN_INSTALL/bin" $path)
-path=("$HOME/.jenv/bin" $path)
-export PATH
+alias python="python3.11"
+alias python3="python3.11"
 
 # Load Antigen
 # 这个path是brew安装的路径
@@ -67,6 +67,16 @@ alias edit=$EDITOR
 # Look in ~/.oh-my-zsh/themes/
 
 alias sz='source ~/.zshrc' #重新执行
+
+# Claude
+alias cc='claude --dangerously-skip-permissions --model "claude-sonnet-4-6"'
+alias cc-opus='claude --dangerously-skip-permissions --model "claude-opus-4-8[1m]"'
+
+# Antigravity
+alias agy='agy --dangerously-skip-permissions'
+
+# Codex
+alias cx='codex --dangerously-bypass-approvals-and-sandbox -m gpt-5.5 -c model_reasoning_effort="high"'
 
 # -------------------------------------------------------------------
 # Directory movement 文件夹移动
@@ -232,9 +242,8 @@ alias update="brew update && brew upgrade && brew cu -a -y && mas upgrade"  # up
 # -------------------------------------------------------------------
 
 # Npm相关
-alias cnpm="npm --registry=http://r.cnpmjs.org \
+alias cnpm="npm --registry=https://registry.npmmirror.com \
 	--cache=$HOME/.npm/.cache/cnpm \
-	--disturl=http://dist.cnpmjs.org \
 	--userconfig=$HOME/.cnpmrc"
 # Chinese Support 中文支持
 export LC_ALL=en_US.UTF-8
@@ -245,27 +254,12 @@ export LANG=en_US.UTF-8
 
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 
-# JDK 环境变量
-export JAVA_HOME=$(/usr/libexec/java_home -v 17 2>/dev/null || /usr/libexec/java_home 2>/dev/null || echo "/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home")
-path=("$JAVA_HOME/bin" $path)
-export CLASSPATH="$JAVA_HOME/lib/tools.jar:$JAVA_HOME/lib/dt.jar:."
-export PATH
- 
-export TERM=xterm-256color 
-
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-path=("$PNPM_HOME" $path)
-export PATH
-
-# Fig post block. Keep at the bottom of this file.
-[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '$HOME/Develop/python/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/Develop/python/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f "$HOME/Develop/python/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/Develop/python/google-cloud-sdk/path.zsh.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '$HOME/Develop/python/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/Develop/python/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f "$HOME/Develop/python/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/Develop/python/google-cloud-sdk/completion.zsh.inc"; fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -277,14 +271,39 @@ export NVM_DIR="$HOME/.nvm"
 
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
 eval "$(jenv init -)"
 
 # OPENSPEC:START
 # OpenSpec shell completions configuration
 fpath=("$HOME/.oh-my-zsh/custom/completions" $fpath)
+fpath=("$HOME/.zfunc" $fpath)
 autoload -Uz compinit
 compinit
 # OPENSPEC:END
+
+# CLIProxyAPI Configuration for Gemini CLI
+# CLIProxyAPI Configuration for Gemini CLI (OAuth Mode)
+# Disabled because no local Code Assist proxy is listening on 127.0.0.1:8317.
+# Clear any inherited shell environment override so Gemini CLI uses the default endpoint.
+unset CODE_ASSIST_ENDPOINT
+# export CODE_ASSIST_ENDPOINT="http://127.0.0.1:8317"
+# End CLIProxyAPI Configuration for Gemini CLI
+
+# Added by Obsidian
+export PATH="$PATH:/Applications/Obsidian.app/Contents/MacOS"
+
+# Added by Antigravity
+export PATH="/Users/stanleyyang/.antigravity/antigravity/bin:$PATH"
+
+
+eval "$(starship init zsh)"
+
+# Added by Antigravity
+export PATH="/Users/stanleyyang/.antigravity/antigravity/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/stanleyyang/.antigravity/antigravity/bin:$PATH"
+
+
+# Added by Antigravity CLI installer
+export PATH="/Users/stanleyyang/.local/bin:$PATH"

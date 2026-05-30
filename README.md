@@ -39,6 +39,23 @@ cd dotfiles
 将项目拉取到新的机器的家目录，切换到`stow dir`，执行`stow -S bash`可以将bash的配置文件展开到家目录下。
 你也可以使用多个组合命令：`stow -S pkg1 pkg2 -D pkg3 pkg4 -S pkg5 -R pkg6`
 
+当前仓库常用包：
+
+- `bash`、`zsh`、`git`、`vim`：基础 shell/editor 配置
+- `tmux`：`~/.tmux.conf`、`~/.config/tmux`、`~/.config/starship-tmux.toml`
+- `kitty`：`~/.config/kitty/kitty.conf`
+- `yazi`：`~/.config/yazi`
+- `lazygit`：`~/.config/jesseduffield/lazygit/config.yml`
+- `raycast-scripts`：`~/.config/raycast-scripts`
+- `bin`：`~/.local/bin` 下的自定义命令
+- `agent-tracker`：`~/.config/agent-tracker` 源码和配置，构建产物不入库
+
+例如：
+
+```shell
+stow -S zsh git tmux kitty yazi lazygit raycast-scripts bin agent-tracker
+```
+
 - `-d` 指定 stow 文件夹
 - `-t` 指定 target 文件夹
 - `-D` 移除已创建的文件树

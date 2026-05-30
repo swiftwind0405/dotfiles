@@ -1,23 +1,26 @@
 windowHotkey = {'control', 'command'}
-launcherHotkey = {'option'}
+launcherHotkey = {'command', 'control', 'option', 'shift'}
 inputHotkey = {'option'}
+inputChineseHotkey = {'control', 'option'}
 workWifi = 'CAIDAO-dev-5G'
 outputDeviceName = 'MacBook Pro扬声器'
 
 applist = {
-    {shortcut = 'C', appname = 'Google Chrome'},
+    {shortcut = 'G', appname = 'Google Chrome'},
+    {shortcut = 'C', appname = 'Codex'},
     -- {shortcut = 'G', appname = 'Visual Studio Code'},
     -- {shortcut = 'F', appname = 'IntelliJ IDEA'},
-    -- {shortcut = 'L', appname = 'Lark'},
-    -- {shortcut = 'D', appname = 'Obsidian'},
-    {shortcut = 'W', appname = 'Warp'},
-    -- {shortcut = 'F', appname = 'Figma'},
-    {shortcut = 'A', appname = 'Microsoft Edge'}
+    {shortcut = 'R', appname = 'Cursor'},
+    {shortcut = 'O', appname = 'Obsidian'},
+    -- {shortcut = 'W', appname = 'Warp'},
+    {shortcut = 'K', appname = 'kitty'},
+    {shortcut = 'E', appname = 'Microsoft Edge'}
 }
 
 appInputMethod = {
-    {'/Applications/iTerm.app', 'English'},
-    {'/Applications/Warp.app', 'English'},
+    {'/Applications/Codex.app', 'Chinese'},
+    {'/Applications/kitty.app', 'English'},
+    {'/Applications/Cursor.app', 'English'},
     {'/Applications/Visual Studio Code.app', 'English'},
     {'/Applications/IntelliJ IDEA.app', 'English'},
     {'/Applications/CotEditor.app', 'English'},

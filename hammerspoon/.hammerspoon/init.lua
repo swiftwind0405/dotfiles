@@ -1,6 +1,7 @@
 require "modules.reload"
 require "config"
-require "modules.window"
+-- 窗口管理已迁移到 Raycast
+-- require "modules.window"
 require "modules.launcher"
 require "modules.input"
 require "modules.defaultInput"

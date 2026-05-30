@@ -4,9 +4,10 @@ end
 
 local function English() hs.keycodes.currentSourceID("com.apple.keylayout.ABC") end
 
-hs.hotkey.bind(inputHotkey, 'S', function() Chinese() end)
+-- Disabled to leave Option/Meta shortcuts available for terminal/tmux.
+-- hs.hotkey.bind(inputChineseHotkey, 'S', function() Chinese() end)
 
-hs.hotkey.bind(inputHotkey, 'E', function() English() end)
+-- hs.hotkey.bind(inputHotkey, 'E', function() English() end)
 
 local function cycleInputMethod()
     if hs.keycodes.currentSourceID() == "com.apple.keylayout.ABC" then
@@ -16,4 +17,4 @@ local function cycleInputMethod()
     end
 end
 
-hs.hotkey.bind(inputHotkey, '.', cycleInputMethod)
+-- hs.hotkey.bind(inputHotkey, '.', cycleInputMethod)

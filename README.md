@@ -42,6 +42,7 @@ cd dotfiles
 当前仓库常用包：
 
 - `bash`、`zsh`、`git`、`vim`：基础 shell/editor 配置
+- `starship`：`~/.config/starship.toml`
 - `tmux`：`~/.tmux.conf`、`~/.config/tmux`、`~/.config/starship-tmux.toml`
 - `kitty`：`~/.config/kitty/kitty.conf`
 - `yazi`：`~/.config/yazi`
@@ -55,7 +56,7 @@ cd dotfiles
 例如：
 
 ```shell
-stow -S zsh git tmux kitty yazi lazygit raycast-scripts bin claude agent-tracker
+stow -S zsh git starship tmux kitty yazi lazygit raycast-scripts bin claude agent-tracker
 ```
 
 仓库根目录有 `.stowrc`，执行 `stow` 时会自动忽略各包顶层的 `README.md`，

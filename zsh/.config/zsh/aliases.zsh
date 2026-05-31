@@ -5,7 +5,7 @@ alias sz='source ~/.zshrc'
 
 # AI tools
 alias cc='claude --dangerously-skip-permissions --model "claude-sonnet-4-6"'
-alias cc-opus='claude --dangerously-skip-permissions --model "claude-opus-4-8[1m]"'
+alias cc-opus='claude --dangerously-skip-permissions --model "claude-opus-4-7[1m]"'
 alias agy='agy --dangerously-skip-permissions'
 alias cx='codex --dangerously-bypass-approvals-and-sandbox -m gpt-5.5 -c model_reasoning_effort="high"'
 

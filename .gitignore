@@ -20,3 +20,5 @@
 agent-tracker/.config/agent-tracker/bin/*
 !agent-tracker/.config/agent-tracker/bin/.gitkeep
 agent-tracker/.config/agent-tracker/run/
+
+tmp/

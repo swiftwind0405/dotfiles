@@ -10,7 +10,7 @@
 [core]
 	autocrlf = input
 	ignorecase = false
-	excludesfile = /Users/stanleyyang/.gitignore_global
+	excludesfile = ~/.gitignore_global
 [http]
 	sslverify = false
 [pager]

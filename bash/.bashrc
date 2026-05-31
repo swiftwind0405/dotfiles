@@ -8,4 +8,4 @@ export PATH="$VOLTA_HOME/bin:$PATH"
 
 
 # Added by Antigravity CLI installer
-export PATH="/Users/stanleyyang/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"

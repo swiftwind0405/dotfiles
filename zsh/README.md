@@ -181,6 +181,7 @@ ZIM_CONFIG_FILE="$HOME/.config/zsh/zimrc" ZIM_HOME="$HOME/.zim" zsh -c "source '
 ```sh
 rm -f ~/.antigenrc
 rm -rf ~/.antigen
+rm -rf ~/.oh-my-zsh
 brew uninstall antigen
 ```
 

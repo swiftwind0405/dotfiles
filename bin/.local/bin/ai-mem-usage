@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 """
-Analyze memory usage of opencode and dart processes, mapping them to tmux windows.
+Analyze memory usage of pi and dart processes, mapping them to tmux windows.
 """
 from __future__ import annotations
 
 import subprocess
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from collections import defaultdict
 from typing import Optional
+
+
+TARGETS = {
+    "pi": re.compile(r"(^|[/\s])pi($|\s)|pi-coding-agent"),
+    "dart": re.compile(r"(^|[/\s])dart($|\s)"),
+}
 
 
 @dataclass
@@ -73,8 +79,8 @@ def get_all_process_memory() -> dict[int, tuple[float, float]]:
 
 
 def get_target_processes() -> list[Process]:
-    """Get all opencode and dart processes."""
-    output = run_cmd("ps -eo pid,ppid,rss,comm | grep -E 'opencode|dart'")
+    """Get all pi and dart processes."""
+    output = run_cmd("ps -eo pid,ppid,rss,args")
     processes = []
     
     mem_data = get_all_process_memory()
@@ -88,7 +94,7 @@ def get_target_processes() -> list[Process]:
                 pid = int(parts[0])
                 ppid = int(parts[1])
                 comm = ' '.join(parts[3:])
-                if 'opencode' in comm or 'dart' in comm:
+                if target_label(comm):
                     mem, cmprs = mem_data.get(pid, (0.0, 0.0))
                     processes.append(Process(
                         pid=pid,
@@ -101,6 +107,13 @@ def get_target_processes() -> list[Process]:
                 continue
     
     return processes
+
+
+def target_label(command: str) -> str:
+    for label, pattern in TARGETS.items():
+        if pattern.search(command):
+            return label
+    return ""
 
 
 def get_tmux_panes() -> list[TmuxPane]:
@@ -177,9 +190,9 @@ def get_parent_chain(pid: int, max_depth: int = 10) -> list[tuple[int, str]]:
     return chain
 
 
-def is_orphaned_opencode(proc: Process) -> bool:
-    """Check if an opencode process is orphaned (parent is launchd or another opencode)."""
-    if 'opencode' not in proc.command:
+def is_orphaned_agent(proc: Process) -> bool:
+    """Check if an agent process is orphaned under launchd."""
+    if target_label(proc.command) != "pi":
         return False
     chain = get_parent_chain(proc.pid)
     if not chain:
@@ -187,7 +200,7 @@ def is_orphaned_opencode(proc: Process) -> bool:
     parent_pid, parent_cmd = chain[0]
     if parent_pid == 1:
         return True
-    if 'node' in parent_cmd:
+    if 'node' in parent_cmd or 'pi' in parent_cmd:
         if len(chain) > 1 and chain[1][0] == 1:
             return True
     return False
@@ -210,11 +223,11 @@ def main():
     
     by_window: dict[str, list[Process]] = defaultdict(list)
     orphans: list[Process] = []
-    orphaned_opencode_pids: set[int] = set()
+    orphaned_agent_pids: set[int] = set()
     
     for proc in processes:
-        if 'opencode' in proc.command and is_orphaned_opencode(proc):
-            orphaned_opencode_pids.add(proc.pid)
+        if is_orphaned_agent(proc):
+            orphaned_agent_pids.add(proc.pid)
     
     for proc in processes:
         chain = get_parent_chain(proc.pid)
@@ -223,10 +236,10 @@ def main():
             proc.parent_cmd = chain[0][1]
         
         is_child_of_orphan = any(
-            p[0] in orphaned_opencode_pids for p in chain
+            p[0] in orphaned_agent_pids for p in chain
         )
         
-        if proc.pid in orphaned_opencode_pids or is_child_of_orphan:
+        if proc.pid in orphaned_agent_pids or is_child_of_orphan:
             orphans.append(proc)
         elif proc.pid in tmux_mapping:
             pane = tmux_mapping[proc.pid]
@@ -236,7 +249,7 @@ def main():
             orphans.append(proc)
     
     print("\n" + "=" * 70)
-    print("AI MEMORY USAGE (opencode + dart)")
+    print("AI MEMORY USAGE (pi + dart)")
     print("=" * 70)
     
     window_totals = []
@@ -260,7 +273,7 @@ def main():
         
         procs.sort(key=lambda p: p.mem_mb + p.compressed_mb, reverse=True)
         for proc in procs:
-            proc_type = "opencode" if "opencode" in proc.command else "dart"
+            proc_type = target_label(proc.command) or "?"
             virt = proc.mem_mb + proc.compressed_mb
             print(f"  {proc.pid:5}  {fmt_mem(virt):>6}  ({fmt_mem(proc.mem_mb):>5} + {fmt_mem(proc.compressed_mb):>5} cmprs)  {proc_type}")
     
@@ -276,7 +289,7 @@ def main():
         orphans.sort(key=lambda p: p.mem_mb + p.compressed_mb, reverse=True)
         
         for proc in orphans:
-            proc_type = "opencode" if "opencode" in proc.command else "dart"
+            proc_type = target_label(proc.command) or "?"
             virt = proc.mem_mb + proc.compressed_mb
             parent_info = proc.parent_cmd.split('/')[-1] if proc.parent_cmd else "?"
             print(f"  {proc.pid:5}  {fmt_mem(virt):>6}  ({fmt_mem(proc.mem_mb):>5} + {fmt_mem(proc.compressed_mb):>5} cmprs)  {proc_type}  <- {parent_info}")

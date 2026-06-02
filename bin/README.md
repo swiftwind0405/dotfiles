@@ -21,7 +21,7 @@ stow -S bin
 ## 命令说明
 
 - `agent`：转发到 `~/.config/agent-tracker/bin/agent`。使用前需要先安装并构建 `agent-tracker`。
-- `ai-mem-usage`：统计 `opencode`、`dart` 相关进程的内存，并尝试映射到 tmux pane/window。
+- `ai-mem-usage`：统计 `pi`、`dart` 相关进程的内存，并尝试映射到 tmux pane/window。
 - `ask`：用隔离的临时 `CODEX_HOME` 调用 Codex CLI，读取 prompt 文件，可选附加图片。
 - `nvim-lazy-reset`：对 `~/.local/share/nvim/lazy` 下所有 lazy.nvim 插件执行 `git reset --hard` 和 `git clean -fd`。
 - `pinchtab-up`：检查并启动 PinchTab，优先使用 daemon，失败后回退到后台 server。

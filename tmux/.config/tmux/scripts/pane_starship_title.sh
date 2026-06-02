@@ -61,18 +61,17 @@ load_option() {
   printf '%s' "$value"
 }
 
-clear_opencode_state() {
+clear_agent_state() {
   [[ -n "$pane_id" ]] || return 0
-  tmux set-option -p -u -t "$pane_id" @op_work_theme 2>/dev/null || true
-  tmux set-option -p -u -t "$pane_id" @op_work_now 2>/dev/null || true
-  tmux set-option -p -u -t "$pane_id" @op_work_summary 2>/dev/null || true
-  tmux set-option -p -u -t "$pane_id" @op_question_pending 2>/dev/null || true
+  tmux set-option -p -u -t "$pane_id" @agent_work_theme 2>/dev/null || true
+  tmux set-option -p -u -t "$pane_id" @agent_work_now 2>/dev/null || true
+  tmux set-option -p -u -t "$pane_id" @agent_work_summary 2>/dev/null || true
+  tmux set-option -p -u -t "$pane_id" @agent_question_pending 2>/dev/null || true
 }
 
-opencode_active() {
+agent_active() {
   local tty_name tty_ps
-  [[ "$pane_title" == OC\ \|* ]] && return 0
-  [[ "$pane_cmd" == "op" || "$pane_cmd" == "opencode" ]] && return 0
+  [[ "$pane_cmd" == "pi" ]] && return 0
   tty_name="${pane_tty#/dev/}"
   tty_ps=""
   if [[ -n "$tty_name" ]]; then
@@ -80,8 +79,7 @@ opencode_active() {
   elif [[ -n "$ps_line" ]]; then
     tty_ps="$ps_line"
   fi
-  [[ "$pane_cmd" == "node" && "$tty_ps" == *"/bin/opencode"* ]] && return 0
-  [[ "$pane_cmd" == "node" && "$tty_ps" == *"opencode-ai/bin/.opencode"* ]] && return 0
+  [[ "$pane_cmd" == "node" && "$tty_ps" == *"pi-coding-agent"* ]] && return 0
   return 1
 }
 
@@ -98,21 +96,21 @@ else
   title=$(fallback)
 fi
 
-theme=$(load_option "@op_work_theme")
+theme=$(load_option "@agent_work_theme")
 if [[ -z "$theme" ]]; then
-  theme=$(load_option "@op_work_summary")
+  theme=$(load_option "@agent_work_summary")
 fi
-now=$(load_option "@op_work_now")
-question_pending=$(load_option "@op_question_pending")
+now=$(load_option "@agent_work_now")
+question_pending=$(load_option "@agent_question_pending")
 pane_watching=$(load_option "@pane_watching")
 
 if [[ "$pane_watching" == "1" ]]; then
   title="⏳ $title"
 fi
 
-if ! opencode_active; then
+if ! agent_active; then
   if [[ -n "$theme" || -n "$now" || -n "$question_pending" ]]; then
-    clear_opencode_state
+    clear_agent_state
   fi
   printf '%s' "$title"
   exit 0

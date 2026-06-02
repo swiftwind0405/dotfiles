@@ -47,8 +47,7 @@ usage() {
   cat <<'EOF'
 Usage: tmux-resurrect
 
-Restore the last tmux-resurrect snapshot, resume saved OpenCode panes,
-and attach to tmux.
+Restore the last tmux-resurrect snapshot and attach to tmux.
 EOF
 }
 

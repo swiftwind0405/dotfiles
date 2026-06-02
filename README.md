@@ -52,18 +52,19 @@ cd dotfiles
 - `claude`：`~/.claude/settings.json` 和 Claude Code 状态栏脚本
 - `codex`：`~/.codex/AGENTS.md` 全局提示词，其它 Codex 配置保持本机私有
 - `agent-tracker`：`~/.config/agent-tracker` 源码和配置，构建产物不入库
+- `pi`：`~/.pi/agent/AGENTS.md`，Pi Coding Agent 全局工作规则
 - `taplo.toml`：仓库级 TOML 格式化配置，不需要 stow
 
 例如：
 
 ```shell
-stow -S zsh git starship tmux kitty yazi lazygit raycast-scripts bin claude codex agent-tracker
+stow -S zsh git starship tmux kitty yazi lazygit raycast-scripts bin claude codex agent-tracker pi
 ```
 
 如果仓库不在 `$HOME` 下，需要显式指定 target：
 
 ```shell
-stow -t "$HOME" -S zsh git starship tmux kitty yazi lazygit raycast-scripts bin claude codex agent-tracker
+stow -t "$HOME" -S zsh git starship tmux kitty yazi lazygit raycast-scripts bin claude codex agent-tracker pi
 ```
 
 仓库根目录有 `.stowrc`，执行 `stow` 时会自动忽略各包顶层的 `README.md`，

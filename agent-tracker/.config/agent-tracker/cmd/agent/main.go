@@ -1575,7 +1575,7 @@ func primeAgentAIPane(paneID string) error {
 		}
 		time.Sleep(100 * time.Millisecond)
 	}
-	if err := runTmux("send-keys", "-t", paneID, "-l", "op"); err != nil {
+	if err := runTmux("send-keys", "-t", paneID, "-l", "pi"); err != nil {
 		return err
 	}
 	return runTmux("send-keys", "-t", paneID, "Enter")
@@ -1881,7 +1881,7 @@ func dirExists(path string) bool {
 }
 
 func defaultAgentKeyPaths() []string {
-	return []string{"AGENTS.md", ".agent-prompts", "opencode.json"}
+	return []string{"AGENTS.md", "CLAUDE.md", ".pi/SYSTEM.md", ".pi/APPEND_SYSTEM.md", ".agent-prompts"}
 }
 
 func bootstrapStateDirPath(workspaceRoot string) string {

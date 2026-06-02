@@ -61,7 +61,7 @@ if [[ -f "$CACHE_FILE" ]]; then
   tracker_state=$(cat "$CACHE_FILE" 2>/dev/null || true)
 fi
 
-question_state=$(tmux list-panes -a -F '#{session_id}::#{@op_question_pending}' 2>/dev/null || true)
+question_state=$(tmux list-panes -a -F '#{session_id}::#{@agent_question_pending}' 2>/dev/null || true)
 
 get_session_icon() {
   local sid="$1"

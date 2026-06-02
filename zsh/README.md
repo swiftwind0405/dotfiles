@@ -15,7 +15,6 @@ stow -S zsh
 - `~/.zshrc`
 - `~/.zshenv`
 - `~/.zprofile`
-- `~/.antigenrc`
 - `~/.config/zsh/`
 
 ## 加载顺序
@@ -50,9 +49,14 @@ ZSH_CONFIG_DIR="${ZSH_CONFIG_DIR:-$HOME/.config/zsh}"
 
 `plugins.zsh`：
 
-- 优先加载 `/opt/homebrew/share/antigen/antigen.zsh`。
-- 失败时回退到 `/usr/local/share/antigen/antigen.zsh`。
-- 读取 `~/.antigenrc` 初始化 oh-my-zsh 插件。
+- 设置 `ZIM_CONFIG_FILE=~/.config/zsh/zimrc` 和 `ZIM_HOME=~/.zim`。
+- 如果 `~/.zim/init.zsh` 存在，则加载 Zim 已构建的插件初始化脚本。
+- 如果 Zim 尚未初始化，只在交互 shell 打印安装提示，不自动下载远程脚本。
+
+`zimrc`：
+
+- 使用 Zim 管理 `git`、`zsh-completions`、`zsh-autosuggestions`、`fast-syntax-highlighting`。
+- 不加载其他 zsh framework 或 framework 插件。
 
 `tools.zsh`：
 
@@ -122,6 +126,79 @@ AI tools：
 ## 依赖和注意事项
 
 - 主要面向 macOS 和 Homebrew。
-- 推荐安装 `antigen`、`starship`、`fzf`、`fd`、`ripgrep`、`jenv`、`autojump`、`bun`、`pnpm`、`nvm`。
+- 推荐安装 `zimfw`、`starship`、`fzf`、`fd`、`ripgrep`、`jenv`、`autojump`、`bun`、`pnpm`、`nvm`。
 - `JAVA_HOME` 自动探测失败时会回退到旧 JDK 路径，换机器后建议检查。
 - AI alias 都带有跳过确认参数，使用前确认当前目录和权限边界。
+
+## Zim 初始化
+
+首次安装或换机器后，先安装 `zimfw`：
+
+```sh
+brew install --formula zimfw
+```
+
+然后初始化模块并生成 `~/.zim/init.zsh`：
+
+```sh
+ZIMFW_SCRIPT="$(brew --prefix)/opt/zimfw/share/zimfw.zsh"
+ZIM_CONFIG_FILE="$HOME/.config/zsh/zimrc" ZIM_HOME="$HOME/.zim" zsh -c "source '$ZIMFW_SCRIPT' install"
+```
+
+修改 `~/.config/zsh/zimrc` 后，重新运行初始化命令，或在已经加载 Zim 的 shell 里执行：
+
+```sh
+zimfw install
+```
+
+## 旧机器迁移步骤
+
+如果另一台机器之前已经 stow 过旧版 zsh 配置，按这个顺序迁移：
+
+1. 拉取最新版 dotfiles：
+
+```sh
+cd ~/dotfiles
+git pull
+```
+
+2. 重新展开 zsh 包：
+
+```sh
+stow -R zsh
+```
+
+3. 安装并初始化 Zim：
+
+```sh
+brew install --formula zimfw
+ZIMFW_SCRIPT="$(brew --prefix)/opt/zimfw/share/zimfw.zsh"
+ZIM_CONFIG_FILE="$HOME/.config/zsh/zimrc" ZIM_HOME="$HOME/.zim" zsh -c "source '$ZIMFW_SCRIPT' install"
+```
+
+4. 清理旧插件管理器和缓存：
+
+```sh
+rm -f ~/.antigenrc
+rm -rf ~/.antigen
+brew uninstall antigen
+```
+
+如果 `brew uninstall antigen` 提示没有安装，可以忽略。
+
+5. 验证新 shell：
+
+```sh
+zsh -lic 'echo ok; zimfw list; command -v antigen || true; echo ZIM_HOME=$ZIM_HOME'
+```
+
+预期输出里应包含：
+
+```text
+ok
+modules/git
+modules/zsh-completions
+modules/zsh-autosuggestions
+modules/fast-syntax-highlighting
+ZIM_HOME=/Users/<user>/.zim
+```

@@ -1,0 +1,4 @@
+zmodule git
+zmodule zsh-users/zsh-completions --fpath src
+zmodule zsh-users/zsh-autosuggestions
+zmodule zdharma-continuum/fast-syntax-highlighting

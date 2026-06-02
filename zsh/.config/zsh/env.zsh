@@ -1,9 +1,6 @@
 # Shared zsh environment and PATH.
 typeset -U path PATH
 
-export ZSH="$HOME/.oh-my-zsh"
-export ZSH_THEME=""
-
 export BUN_INSTALL="$HOME/.bun"
 export PNPM_HOME="$HOME/Library/pnpm"
 export NVM_DIR="$HOME/.nvm"
@@ -48,7 +45,6 @@ export LSCOLORS=Gxfxcxdxbxegedabagacad
 export EDITOR="vim"
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export UPDATE_ZSH_DAYS=1
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
 unset CODE_ASSIST_ENDPOINT

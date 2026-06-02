@@ -1,5 +1,5 @@
 # Completion setup. Add all fpath entries before running compinit once.
-fpath=("$HOME/.oh-my-zsh/custom/completions" "$HOME/.zfunc" $fpath)
+fpath=("$HOME/.zfunc" $fpath)
 
 autoload -Uz compinit
 

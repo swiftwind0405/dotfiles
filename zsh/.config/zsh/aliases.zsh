@@ -33,7 +33,6 @@ alias cleanDS='find . -name ".DS_Store" -print0 | xargs -0 rm -rf'
 # Quick edit
 alias zshconfig="vim ~/.zshrc"
 alias zshsource="source ~/.zshrc"
-alias ohmyzsh="cd ~/.oh-my-zsh"
 
 # Git
 alias gam="git commit -a -m"

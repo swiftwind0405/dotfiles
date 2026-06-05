@@ -45,8 +45,8 @@ alias gb='git branch'
 alias gd='git diff'
 
 # Network and system
-alias proxy="export https_proxy=http://127.0.0.1:6152;export http_proxy=http://127.0.0.1:6152;export all_proxy=socks5://127.0.0.1:6153;echo \"Proxy successfully\""
-alias unproxy="unset http_proxy;unset https_proxy;unset all_proxy;echo \"Unset proxy successfully\" "
+alias proxy="export https_proxy=http://127.0.0.1:6152;export http_proxy=http://127.0.0.1:6152;export all_proxy=socks5://127.0.0.1:6153;export HTTPS_PROXY=\$https_proxy;export HTTP_PROXY=\$http_proxy;export ALL_PROXY=\$all_proxy;echo \"Proxy successfully\""
+alias unproxy="unset http_proxy https_proxy all_proxy HTTP_PROXY HTTPS_PROXY ALL_PROXY;echo \"Unset proxy successfully\" "
 alias ipcn="curl myip.ipip.net"
 alias ip="curl ip.sb"
 alias dns="dscacheutil -flushcache"

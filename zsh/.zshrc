@@ -18,3 +18,6 @@ do
 done
 
 unset zsh_config_file
+
+# bun completions
+[ -s "/Users/admin/.bun/_bun" ] && source "/Users/admin/.bun/_bun"

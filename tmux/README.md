@@ -66,6 +66,8 @@ prefix 后的常用键：
 - `I/N/U/E`：用 layout builder 在右/左/上/下创建布局。
 - `Space`：切换布局方向。
 - `C-g`：切换 synchronize-panes。
+- `Alt+s`：保存 tmux-resurrect 环境快照。
+- `Ctrl+r`：恢复 tmux-resurrect 环境快照。
 - `W`：打开 choose-tree。
 - `S`、`V`：从 choose-tree 选择 pane 并移动到当前布局。
 - `P`：切换 agent tracker 通知状态。

@@ -47,12 +47,6 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export HOMEBREW_NO_AUTO_UPDATE=1
 export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.ustc.edu.cn/homebrew-bottles
-export http_proxy=http://127.0.0.1:6152
-export https_proxy=http://127.0.0.1:6152
-export all_proxy=socks5://127.0.0.1:6153
-export HTTP_PROXY="$http_proxy"
-export HTTPS_PROXY="$https_proxy"
-export ALL_PROXY="$all_proxy"
 unset CODE_ASSIST_ENDPOINT
 
 if command -v python3.11 >/dev/null 2>&1; then

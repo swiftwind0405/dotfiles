@@ -39,6 +39,7 @@ path=(
 export PATH
 unset __brew_prefix __tool_paths
 
+export TZ=Asia/Singapore
 export TERM=xterm-256color
 export CLICOLOR=1
 export LSCOLORS=Gxfxcxdxbxegedabagacad

@@ -22,3 +22,5 @@
 	smudge = git-lfs smudge -- %f
 [init]
 	defaultBranch = master
+[http "https://github.com/"]
+	proxy = socks5h://127.0.0.1:7897

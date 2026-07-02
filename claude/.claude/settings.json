@@ -41,8 +41,7 @@
     "codex@openai-codex": true,
     "skill-creator@claude-plugins-official": true,
     "compound-engineering@compound-engineering-plugin": true,
-    "typescript-lsp@claude-plugins-official": true,
-    "ponytail@ponytail": true
+    "typescript-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-hud": {
